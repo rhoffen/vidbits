@@ -27,8 +27,8 @@ describe('POST /videos',() => {
 
     const createdItem = await Video.findOne(seedItem);
     assert.isOk(createdItem, 'item is not in database');
-    //assert.equal(response.status, 302);
-    assert.include(parseTextFromHTML(response.text,'<h1>'),seedItem.title);
-    assert.include(parseTextFromHTML(response.text,'<p>'),seedItem.description);
+    assert.equal(response.status, 201);
+    assert.include(parseTextFromHTML(response.text,'h1'),seedItem.title);
+    assert.include(parseTextFromHTML(response.text,'p'),seedItem.description);
   });
 });

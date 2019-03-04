@@ -14,7 +14,7 @@ describe('user visiting new video page', () => {
     browser.setValue('#videoUrl-input', seedItem.videoUrl);
     browser.setValue('#description-input', seedItem.decription);
     browser.click('button[type=submit]');
-    browser.url('/');
+    browser.url('/videos');
     assert.include(browser.getText('body'),seedItem.title);
     assert.include(browser.getText('body'),seedItem.description);
   });
