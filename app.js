@@ -21,7 +21,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', videosRoute);
 
 app.get('/', (req, res, next) => {
+  //res.redirect('/videos/index');
   res.redirect('/videos');
+
 });
 
 

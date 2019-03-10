@@ -3,7 +3,7 @@ const request = require('supertest');
 const {jsdom} = require('jsdom');
 const app = require('../../app');
 const Video = require('../../models/video');
-const {parseTextFromHTML, seedItemToDatabase, connectDatabaseAndDropData, disconnectDatabase} = require('../test-utils');
+const {parseTextFromHTML, seedItemToDatabase, connectDatabase, disconnectDatabase} = require('../test-utils');
 
 // const findVideoElementBySource = (htmlAsString, src) => {
 //   const video = jsdom(htmlAsString).querySelector(`video[src="${src}"]`);
@@ -15,18 +15,16 @@ const {parseTextFromHTML, seedItemToDatabase, connectDatabaseAndDropData, discon
 // };
 
 describe('Server path: /videos', () => {
-  beforeEach(connectDatabaseAndDropData);
-
-  afterEach(disconnectDatabase);
 
   describe('GET', () => {
+    beforeEach(connectDatabase);
+
+    afterEach(disconnectDatabase);
     it('renders an item with a title', async () => {
       const video = await seedItemToDatabase();
       console.log('got seeded? ' + video.title);
-      //const isSeeded = await Video.findOne(video);
-      //console.log('got seeded? ' + isSeeded.title);
       const response = await request(app)
-      .get('/');
+        .get('/');
 
       assert.include(parseTextFromHTML(response.text, '.video-title'), video.title);
       //const videoElement = findVideoElementBySource(response.text, video.videoUrl);
@@ -40,8 +38,8 @@ describe('Server path: /videos', () => {
       const response = await request(app)
         .get(`/`);
 
-      assert.include(parseTextFromHTML(response.text, '.video-title'), firstItem.title);
-      assert.include(parseTextFromHTML(response.text, '.video-title'), secondItem.title);
+      assert.include(parseTextFromHTML(response.text, `#video-${firstItem._id} .video-title`), firstItem.title);
+      assert.include(parseTextFromHTML(response.text, `#video-${secondItem._id} .video-title`), secondItem.title);
     });
   });
 });

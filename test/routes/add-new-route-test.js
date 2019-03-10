@@ -27,8 +27,17 @@ describe('POST /videos',() => {
 
     const createdItem = await Video.findOne(seedItem);
     assert.isOk(createdItem, 'item is not in database');
-    //assert.equal(response.status, 201);
-    //assert.include(parseTextFromHTML(response.text,'h1'),seedItem.title);
-    //assert.include(parseTextFromHTML(response.text,'p'),seedItem.description);
   });
+
+    it('does not save video when title is missing', async () => {
+      const seedItem = {title: ''};
+
+      const response = await request(app)
+        .post('/videos')
+        .type('form')
+        .send(seedItem);
+
+      const allVideos = await Video.find();
+      assert.equal(allVideos.length, 0);
+    });
 });
