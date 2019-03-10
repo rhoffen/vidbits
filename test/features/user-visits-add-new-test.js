@@ -8,12 +8,12 @@ describe('user visiting new video page', () => {
       description: 'This guy is so into his trains'
     };
 
-    browser.url('/videos/create.html');
+    browser.url('/videos/create');
     assert.include(browser.getText('body'),'Save a video');
-    browser.setValue('#title-input', seedItem.title);
-    browser.setValue('#videoUrl-input', seedItem.videoUrl);
-    browser.setValue('#description-input', seedItem.decription);
-    browser.click('button[type=submit]');
+    browser.setValue('input#title-input', seedItem.title);
+    browser.setValue('input#videoUrl-input', seedItem.videoUrl);
+    browser.setValue('input#description-input', seedItem.decription);
+    browser.click('button[type="submit"]');
     browser.url('/videos');
     assert.include(browser.getText('body'),seedItem.title);
     assert.include(browser.getText('body'),seedItem.description);

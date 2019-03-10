@@ -5,12 +5,16 @@ router.post('/videos', async (req, res, next) => {
   const {title, description, videoUrl} = req.body;
   const newVideo = await new Video({title, description, videoUrl});
   await newVideo.save();
-  const html = `
-  <h1>${newVideo.title}</h1>
-  <p>${newVideo.description}</p>
-`;
-  // await res.render('/', (err,html) => {
-    res.status(201).send(html);
-  // });
+  res.render('videos/show', {newVideo});
 });
+
+router.get('/videos/create', async (req, res, next) => {
+  res.render('create');
+});
+
+router.get('/', async (req, res, next) => {
+  const videos = await Video.find({});
+  res.render('videos/index', {videos});
+});
+
 module.exports = router;

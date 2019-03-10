@@ -1,5 +1,6 @@
 const {jsdom} = require('jsdom');
 const {mongoose, databaseUrl, options} = require('../database');
+const Video = require('../models/video');
 
 
 // extract text from an Element by selector.
@@ -21,9 +22,29 @@ const disconnectDatabase = async () => {
    await mongoose.disconnect();
 };
 
+// const seedItem = {
+//   title: 'Excited train guy, New York!',
+//   description: 'This guy is so into his trains',
+//   videoUrl: 'https://www.youtube.com/embed/6lutNECOZFw'
+// };
+
+// Create and return a sample Item object
+const buildItemObject = (options = {}) => {
+  const title = options.title || 'Excited train guy, New York!';
+  const videoUrl = options.videoUrl || 'https://www.youtube.com/embed/6lutNECOZFw';
+  const description = options.description || 'This guy is so into his trains';
+  return {title, videoUrl, description};
+};
+
+// Add a sample Item object to mongodb
+const seedItemToDatabase = async (options = {}) => {
+  const video = await Video.create(buildItemObject(options));
+  return video;
+};
+
 module.exports = {
-  // buildItemObject,
-  // seedItemToDatabase,
+  buildItemObject,
+  seedItemToDatabase,
   parseTextFromHTML,
   connectDatabase,
   disconnectDatabase,

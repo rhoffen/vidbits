@@ -1,0 +1,15 @@
+    <div class="contents-container" id="videos-container">
+      {{#each videos as |video|}}
+
+      <div class="video-card">
+        <div class="video-player">
+            <!-- <iframe class="video-player" src="{{video.videoUrl}}" frameborder="0" allowfullscreen></iframe> -->
+        </div>
+        <div class="video-title">
+          {{video.title}}
+          {{video.description}}
+        </div>
+      </div>
+      {{/each}}
+
+    </div>
