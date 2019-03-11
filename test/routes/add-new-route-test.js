@@ -29,15 +29,15 @@ describe('POST /videos',() => {
     assert.isOk(createdItem, 'item is not in database');
   });
 
-    // it('does not save video when title is missing', async () => {
-    //   const seedItem = {title: '', description:'test description'};
-    //
-    //   const response = await request(app)
-    //     .post('/videos')
-    //     .type('form')
-    //     .send(seedItem);
-    //
-    //   const allVideos = await Video.find();
-    //   assert.equal(allVideos.length, 0);
-    // });
+    it('does not save video when title is missing', async () => {
+      const seedItem = {title: '', description:'test description'};
+
+      const response = await request(app)
+        .post('/videos')
+        .type('form')
+        .send(seedItem);
+
+      const allVideos = await Video.find();
+      assert.equal(allVideos.length, 0);
+    });
 });
