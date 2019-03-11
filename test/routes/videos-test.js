@@ -39,7 +39,7 @@ describe('Server path: /videos', () => {
 
       const response = await request(app)
         .get('/');
-        //.get(`/videos`);
+        //.get('/videos');
 
       assert.include(parseTextFromHTML(response.text, `#video-${firstItem._id} .video-title`), firstItem.title);
       assert.include(parseTextFromHTML(response.text, `#video-${secondItem._id} .video-title`), secondItem.title);
