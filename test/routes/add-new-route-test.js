@@ -30,7 +30,7 @@ describe('POST /videos',() => {
   });
 
     it('does not save video when title is missing', async () => {
-      const seedItem = {title: ''};
+      const seedItem = {title: '', description:'test description'};
 
       const response = await request(app)
         .post('/videos')
