@@ -21,12 +21,14 @@ describe('Server path: /videos', () => {
 
     afterEach(disconnectDatabase);
     it('renders an item with a title', async () => {
-      const video = await seedItemToDatabase();
+      console.log('Just before seed function');
+      const video = await seedItemToDatabase({});
       console.log('got seeded? ' + video.title);
       const response = await request(app)
         .get('/');
+        //.get('/videos');
 
-      assert.include(parseTextFromHTML(response.text, '.video-title'), video.title);
+      assert.include(parseTextFromHTML(response.text, `#video-${video._id} .video-title`), video.title);
       //const videoElement = findVideoElementBySource(response.text, video.videoUrl);
       //assert.equal(videoElement.src, video.imageUrl);
     });
@@ -36,7 +38,8 @@ describe('Server path: /videos', () => {
       const secondItem = await seedItemToDatabase({title: 'Item2'});
 
       const response = await request(app)
-        .get(`/`);
+        .get('/');
+        //.get(`/videos`);
 
       assert.include(parseTextFromHTML(response.text, `#video-${firstItem._id} .video-title`), firstItem.title);
       assert.include(parseTextFromHTML(response.text, `#video-${secondItem._id} .video-title`), secondItem.title);
