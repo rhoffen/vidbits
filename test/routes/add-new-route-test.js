@@ -28,16 +28,42 @@ describe('POST /videos',() => {
     const createdItem = await Video.findOne(seedItem);
     assert.isOk(createdItem, 'item is not in database');
   });
+    describe('when the title is missing', () => {
+      it('does not save video', async () => {
+        const seedItem = {title: '', description:'test description'};
 
-    it('does not save video when title is missing', async () => {
-      const seedItem = {title: '', description:'test description'};
+        const response = await request(app)
+          .post('/videos')
+          .type('form')
+          .send(seedItem);
 
-      const response = await request(app)
-        .post('/videos')
-        .type('form')
-        .send(seedItem);
+        const allVideos = await Video.find();
+        assert.equal(allVideos.length, 0);
+      });
 
-      const allVideos = await Video.find();
-      assert.equal(allVideos.length, 0);
+      it('responds with a 400', async () => {
+        const seedItem = {title: '', description:'test description'};
+
+        const response = await request(app)
+          .post('/videos')
+          .type('form')
+          .send(seedItem);
+
+        //const allVideos = await Video.find();
+        assert.equal(response.status, 400);
+      });
+
+      it('renders the video form', async () => {
+        const seedItem = {title: '', description:'test description'};
+
+        const response = await request(app)
+          .post('/videos')
+          .type('form')
+          .send(seedItem);
+
+        const errorMessage = parseTextFromHTML(response.text,'span[class="error"]');
+        assert.equal(errorMessage, 'could not find title input');
+      });
     });
+
 });

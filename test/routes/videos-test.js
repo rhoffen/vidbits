@@ -21,12 +21,10 @@ describe('Server path: /videos', () => {
 
     afterEach(disconnectDatabase);
     it('renders an item with a title', async () => {
-      console.log('Just before seed function');
       const video = await seedItemToDatabase({});
-      console.log('got seeded? ' + video.title);
       const response = await request(app)
-        .get('/');
         //.get('/videos');
+        .get('/');
 
       assert.include(parseTextFromHTML(response.text, `#video-${video._id} .video-title`), video.title);
       //const videoElement = findVideoElementBySource(response.text, video.videoUrl);

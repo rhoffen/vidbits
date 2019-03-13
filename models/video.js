@@ -5,13 +5,15 @@ const Video = mongoose.model(
   mongoose.Schema({
     title: {
       type: String,
-      // required: true
+      required: true
     },
     description: {
       type: String,
+      // required: true
     },
     videoUrl: {
-      type: String
+      type: String,
+      // required: true
     }
   })
 );
