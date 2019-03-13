@@ -3,10 +3,10 @@ const Video = require('../models/video');
 
 router.post('/videos', async (req, res, next) => {
   const {title, description, videoUrl} = req.body;
-  // if (!title) {
-  //   console.log('req.body.description = ' + req.body.description);
-  //   res.send({title: 'title'});
-  // }
+  if (!title) {
+    console.log('req.body.description = ' + req.body.description);
+    res.send({title:"titleString"});
+  }
   const newVideo = await new Video({title, description, videoUrl});
   await newVideo.save();
   res.render('/videos/show', {newVideo});
