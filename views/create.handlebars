@@ -3,7 +3,7 @@
       {{#with newVideo.errors.title as |error|}}
         <span class="error">{{error.message}}</span>
       {{/with}}
-      <textarea id="description-input" name="description"></textarea>
-      <input id="videoUrl-input" name="videoUrl">
+      <textarea id="description-input" name="description">{{newVideo.description}}</textarea>
+      <input id="videoUrl-input" name="videoUrl" value="{{newVideo.videoUrl}}">
       <button type='submit'>Save a video</button>
     </form>

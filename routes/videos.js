@@ -15,7 +15,7 @@ router.post('/videos', async (req, res, next) => {
     res.status(400).render('create', { newVideo });
   } else {
     const video = await newVideo.save();
-    res.status(201).render('videos/show', {video});
+    res.status(302).render('videos/show', {video});
   }
 });
 
