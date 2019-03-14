@@ -109,7 +109,7 @@ describe('POST /videos',() => {
         assert.equal(errorMessage, 'could not find title input');
       });
 
-      it('renders the other field values', async () => {
+      it('preserves the other field values', async () => {
         const seedItem = {title: '', description:'test description', videoUrl: 'https://some.url.com'};
 
         const response = await request(app)
