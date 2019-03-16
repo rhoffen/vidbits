@@ -3,16 +3,7 @@ const request = require('supertest');
 const {jsdom} = require('jsdom');
 const app = require('../../app');
 const Video = require('../../models/video');
-const {parseTextFromHTML, seedItemToDatabase, connectDatabase, disconnectDatabase} = require('../test-utils');
-
-const findVideoElementBySource = (htmlAsString, src) => {
-  const video = jsdom(htmlAsString).querySelector(`iframe[src="${src}"]`);
-  if (video !== null) {
-    return video;
-  } else {
-    throw new Error(`Video with src "${src}" not found in HTML string`);
-  }
-};
+const {parseTextFromHTML, seedItemToDatabase, connectDatabase, disconnectDatabase, findVideoElementBySource} = require('../test-utils');
 
 describe('GET /videos', () => {
 
@@ -49,5 +40,6 @@ describe('GET /videos/:id', () => {
     assert.include(parseTextFromHTML(response.text, `.video-title`), videoItem.title);
     assert.include(parseTextFromHTML(response.text, `.video-title`), videoItem.description);
     assert.ok(findVideoElementBySource(response.text, videoItem.videoUrl));
+    //assert.deepInclude(response.text, {videoItem});
   });
 });

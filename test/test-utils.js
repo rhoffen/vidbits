@@ -13,6 +13,16 @@ const parseTextFromHTML = (htmlAsString, selector) => {
   }
 };
 
+//extract video with given src in iframe
+const findVideoElementBySource = (htmlAsString, src) => {
+  const video = jsdom(htmlAsString).querySelector(`iframe[src="${src}"]`);
+  if (video !== null) {
+    return video;
+  } else {
+    throw new Error(`Video with src "${src}" not found in HTML string`);
+  }
+};
+
 const connectDatabase = async () => {
   await mongoose.connect(databaseUrl, options);
   await mongoose.connection.db.dropDatabase();
@@ -46,6 +56,7 @@ module.exports = {
   buildItemObject,
   seedItemToDatabase,
   parseTextFromHTML,
+  findVideoElementBySource,
   connectDatabase,
   disconnectDatabase,
 };

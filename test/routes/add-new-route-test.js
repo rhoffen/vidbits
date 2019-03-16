@@ -58,6 +58,7 @@ describe('POST /videos',() => {
 
     const createdItem = await Video.findOne(seedItem);
     assert.isOk(createdItem, 'item is not in database');
+    assert.equal(createdItem.videoUrl, seedItem.videoUrl);
   });
 
     describe('when the title is missing', () => {
