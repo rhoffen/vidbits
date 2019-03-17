@@ -27,7 +27,7 @@ describe('POST /videos',() => {
     assert.equal(response.status, 302);
   });
 
-  it('redirects to the new video show page', async () => {
+  it('redirects to the video show page', async () => {
     const seedItem = {
       title: 'Excited train guy, New York!',
       description: 'This guy is so into his trains',
@@ -39,7 +39,7 @@ describe('POST /videos',() => {
       .type('form')
       .send(seedItem);
 
-    const textOnShowPage = 'New Video Show Page'
+    const textOnShowPage = 'Video Show Page'
     assert.equal(parseTextFromHTML(response.text,'h1'), textOnShowPage);
   });
 
@@ -124,6 +124,22 @@ describe('POST /videos',() => {
         assert.equal(descriptionTest, seedItem.description);
         assert.ok(videoUrlTest);
       });
+    });
+
+    describe('when the URL is missing', () => {
+      it('renders the validation error message', async () => {
+        const missingUrlItem = {title: 'Best video'}
+
+        const response = await request(app)
+          .post('/videos')
+          .type('form')
+          .send(missingUrlItem);
+
+        const errorMessage = parseTextFromHTML(response.text,'span[class="url-error"]');
+        assert.equal(errorMessage, 'Video URL required');
+      });
+
+      it('preserves the other field values',() => {});
     });
 
 });

@@ -7,23 +7,26 @@ const {parseTextFromHTML, seedItemToDatabase, connectDatabase, disconnectDatabas
 
 describe('GET /videos', () => {
 
-  describe('GET', () => {
+
     beforeEach(connectDatabase);
 
     afterEach(disconnectDatabase);
 
     it('renders existing Videos', async () => {
-      const firstItem = await seedItemToDatabase({title: 'Item1'});
-      const secondItem = await seedItemToDatabase({title: 'Item2'});
+      const firstItem = await seedItemToDatabase({title: 'Item1', videoUrl: 'http://youtube/3.14'});
+      const secondItem = await seedItemToDatabase({title: 'Item2', videoUrl: 'http://vimeo/2.71'});
 
       const response = await request(app)
         .get('/');
         //.get('/videos');
 
       assert.include(parseTextFromHTML(response.text, `#video-${firstItem._id} .video-title`), firstItem.title);
+      assert.ok(findVideoElementBySource(response.text, firstItem.videoUrl));
       assert.include(parseTextFromHTML(response.text, `#video-${secondItem._id} .video-title`), secondItem.title);
+      assert.ok(findVideoElementBySource(response.text, secondItem.videoUrl));
+
     });
-  });
+
 });
 
 describe('GET /videos/:id', () => {
@@ -38,7 +41,7 @@ describe('GET /videos/:id', () => {
       .get(`/videos/${videoItem._id}`);
 
     assert.include(parseTextFromHTML(response.text, `.video-title`), videoItem.title);
-    assert.include(parseTextFromHTML(response.text, `.video-title`), videoItem.description);
+    assert.include(parseTextFromHTML(response.text, `.video-description`), videoItem.description);
     assert.ok(findVideoElementBySource(response.text, videoItem.videoUrl));
     //assert.deepInclude(response.text, {videoItem});
   });

@@ -9,9 +9,11 @@ router.post('/videos', async (req, res, next) => {
   newVideo.validateSync();
 
   if (newVideo.errors) {
-    // console.log('errors object: ' + JSON.stringify(newVideo.errors));
-    newVideo.errors.title.message = 'could not find title input';
-    // console.log('errors object reset message: ' + JSON.stringify(newVideo.errors));
+    if (newVideo.errors.title) {
+      newVideo.errors.title.message = 'could not find title input';
+    } else if (newVideo.errors.videoUrl) {
+      newVideo.errors.videoUrl.message = 'Video URL required';
+    }
     res.status(400).render('create', { newVideo });
   } else {
     const video = await newVideo.save();

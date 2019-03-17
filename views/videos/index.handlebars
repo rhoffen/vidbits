@@ -10,6 +10,9 @@
           {{video.description}}
         </div>
       </div>
+      <form action='/videos/{{video._id}}' method='get'>
+        <button id="go-to-video-{{video._id}}" type='submit'>Go to video page</button>
+      </form>
       {{/each}}
 
     </div>

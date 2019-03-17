@@ -1,13 +1,16 @@
   <div class="contents-container" id="videos-container">
-    <h1>New Video Show Page<h1>
+    <h1>Video Show Page<h1>
     <div class="video-card">
+
+      <div class="video-title">
+        <p>{{newVideo.title}}</p>
+      </div>
+
       <div class="video-player">
           <iframe class="video-player" src="{{newVideo.videoUrl}}" frameborder="0" allowfullscreen></iframe>
       </div>
-      <div class="video-title">
-        <!-- Excited train guy, New York! -->
-        <p>{{newVideo.title}}</p>
 
+      <div class='video-description'>
         <p>{{newVideo.description}}</p>
       </div>
     </div>
