@@ -32,12 +32,6 @@ const disconnectDatabase = async () => {
    await mongoose.disconnect();
 };
 
-// const seedItem = {
-//   title: 'Excited train guy, New York!',
-//   description: 'This guy is so into his trains',
-//   videoUrl: 'https://www.youtube.com/embed/6lutNECOZFw'
-// };
-
 // Create and return a sample Item object
 const buildItemObject = (options = {}) => {
   const title = options.title || 'Excited train guy, New York!';

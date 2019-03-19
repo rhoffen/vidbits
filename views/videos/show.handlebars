@@ -13,5 +13,8 @@
       <div class='video-description'>
         <p>{{newVideo.description}}</p>
       </div>
+      <form action='/videos/{{newVideo._id}}/edit'>
+        <button id='edit' type='submit'>Edit video properties</button>
+      </form>
     </div>
   </div>

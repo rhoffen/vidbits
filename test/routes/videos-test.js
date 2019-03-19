@@ -46,3 +46,68 @@ describe('GET /videos/:id', () => {
     //assert.deepInclude(response.text, {videoItem});
   });
 });
+
+describe('GET /videos/:id/edit', () => {
+  beforeEach(connectDatabase);
+  afterEach(disconnectDatabase);
+
+  it('renders a form for the Video', async () => {
+    const videoItem = await seedItemToDatabase();
+
+    const response = await request(app)
+      .get(`/videos/${videoItem._id}/edit`);
+
+    const titleTest = jsdom(response.text).querySelector(`#title-input`).value;
+    const urlTest = jsdom(response.text).querySelector(`#videoUrl-input`).value;
+
+    assert.equal(titleTest, videoItem.title);
+    assert.equal(parseTextFromHTML(response.text, `#description-input`), videoItem.description);
+    assert.equal(urlTest, videoItem.videoUrl);
+  });
+});
+
+describe('POST /videos/:id/updates', () => {
+
+  beforeEach(connectDatabase);
+  afterEach(disconnectDatabase);
+
+  it('updates the record', async () => {
+    const itemToUpdate = await seedItemToDatabase();
+
+    const response1 = await request(app)
+      .get(`/videos/${itemToUpdate._id}/edit`);
+
+    const newProps = {
+      title: 'Updated title',
+      description: 'Updated description',
+      videoUrl: 'updated URL'
+    };
+
+    // jsdom(response1.text).querySelector('#title-input').value = newProps.title;
+    // jsdom(response1.text).querySelector('#description-input').value = newProps.description;
+    // jsdom(response1.text).querySelector('#videoUrl-input').value = newProps.videoUrl;
+    itemToUpdate.title= newProps.title;
+    itemToUpdate.description=newProps.description;
+    itemToUpdate.videoUrl = newProps.videoUrl;
+
+    console.log(`itemToUpdate = ${itemToUpdate}`);
+
+    const response2 = await request(app)
+      .post(`/videos/${itemToUpdate._id}/updates`)
+      .type(`form`)
+      .send(itemToUpdate);
+
+    const updatedItem = Video.findById(itemToUpdate._id);
+
+    assert.equal(updatedItem.title, newProps.title);
+    assert.equal(updatedItem.description, newProps.description);
+    assert.equal(updatedItem.videoUrl, newProps.videoUrl);
+
+  });
+  it('redirects to the show page', async () => {});
+  describe('when the record is invalid',() => {
+    it('does not save the record', async () => {});
+    it('responds with a 400', async () => {});
+    it('renders the Edit form', async () => {});
+  });
+});

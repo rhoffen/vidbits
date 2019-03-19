@@ -35,4 +35,19 @@ router.get('/videos/:id', async (req, res, next) => {
   res.render('videos/show', {newVideo});
 });
 
+router.get('/videos/:id/edit', async (req, res, next) => {
+  const videoToEdit = await Video.findById(req.params.id);
+  res.render('videos/edit', {videoToEdit});
+});
+
+router.post('videos/:id/updates', async (req, res, next) => {
+  console.log(`***req.title = ${req.title}`);
+  const updatedVideo = await Video.findOneAndUpdate({"_id": req.params.id},
+    {$set: {"title": req.title}},
+    {returnNewDocument: true}
+  );
+
+  res.render('videos/show', {updatedVideo});
+});
+
 module.exports = router;
