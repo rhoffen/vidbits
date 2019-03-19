@@ -83,18 +83,16 @@ describe('POST /videos/:id/updates', () => {
       videoUrl: 'updated URL'
     };
 
-    // jsdom(response1.text).querySelector('#title-input').value = newProps.title;
-    // jsdom(response1.text).querySelector('#description-input').value = newProps.description;
-    // jsdom(response1.text).querySelector('#videoUrl-input').value = newProps.videoUrl;
     itemToUpdate.title= newProps.title;
     itemToUpdate.description=newProps.description;
     itemToUpdate.videoUrl = newProps.videoUrl;
 
     console.log(`itemToUpdate = ${itemToUpdate}`);
+    console.log(`itemToUpdate._id = ${itemToUpdate._id}`);
 
     const response2 = await request(app)
       .post(`/videos/${itemToUpdate._id}/updates`)
-      .type(`form`)
+      .type('form')
       .send(itemToUpdate);
 
     const updatedItem = Video.findById(itemToUpdate._id);
@@ -102,6 +100,7 @@ describe('POST /videos/:id/updates', () => {
     assert.equal(updatedItem.title, newProps.title);
     assert.equal(updatedItem.description, newProps.description);
     assert.equal(updatedItem.videoUrl, newProps.videoUrl);
+    //assert.equal(parseTextFromHTML(response2.text,'.video-title'), newProps.title);
 
   });
   it('redirects to the show page', async () => {});

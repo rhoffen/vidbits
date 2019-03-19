@@ -40,13 +40,17 @@ router.get('/videos/:id/edit', async (req, res, next) => {
   res.render('videos/edit', {videoToEdit});
 });
 
-router.post('videos/:id/updates', async (req, res, next) => {
-  console.log(`***req.title = ${req.title}`);
-  const updatedVideo = await Video.findOneAndUpdate({"_id": req.params.id},
-    {$set: {"title": req.title}},
+router.post('/videos/:id/updates', async (req, res, next) => {
+  console.log('post request id: ' + req.params.id);
+  const {title, videoUrl, description} = req.body;
+
+  await console.log(`***req.title = ${title}`);
+
+  const updatedVideo = await Video.update(
+    {_id: req.params.id},
+    {$set: {title, videoUrl, description}},
     {returnNewDocument: true}
   );
-
   res.render('videos/show', {updatedVideo});
 });
 
