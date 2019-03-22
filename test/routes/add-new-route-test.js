@@ -82,7 +82,6 @@ describe('POST /videos',() => {
           .type('form')
           .send(seedItem);
 
-        //const allVideos = await Video.find();
         assert.equal(response.status, 400);
       });
 

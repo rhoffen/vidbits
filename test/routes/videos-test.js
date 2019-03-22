@@ -3,7 +3,7 @@ const request = require('supertest');
 const {jsdom} = require('jsdom');
 const app = require('../../app');
 const Video = require('../../models/video');
-const {parseTextFromHTML, seedItemToDatabase, connectDatabase, disconnectDatabase, findVideoElementBySource} = require('../test-utils');
+const {parseTextFromHTML, seedItemToDatabase, newProps, updatedVideoInformation, connectDatabase, disconnectDatabase, findVideoElementBySource} = require('../test-utils');
 
 describe('GET /videos', () => {
 
@@ -77,36 +77,57 @@ describe('POST /videos/:id/updates', () => {
     const response1 = await request(app)
       .get(`/videos/${itemToUpdate._id}/edit`);
 
-    const newProps = {
-      title: 'Updated title',
-      description: 'Updated description',
-      videoUrl: 'updated URL'
-    };
-
-    itemToUpdate.title= newProps.title;
-    itemToUpdate.description=newProps.description;
-    itemToUpdate.videoUrl = newProps.videoUrl;
-
-    console.log(`itemToUpdate = ${itemToUpdate}`);
-    console.log(`itemToUpdate._id = ${itemToUpdate._id}`);
-
     const response2 = await request(app)
       .post(`/videos/${itemToUpdate._id}/updates`)
       .type('form')
-      .send(itemToUpdate);
+      .send(updatedVideoInformation);
 
-    const updatedItem = Video.findById(itemToUpdate._id);
+
+    const updatedItem = await Video.findById(itemToUpdate._id);
 
     assert.equal(updatedItem.title, newProps.title);
     assert.equal(updatedItem.description, newProps.description);
     assert.equal(updatedItem.videoUrl, newProps.videoUrl);
-    //assert.equal(parseTextFromHTML(response2.text,'.video-title'), newProps.title);
 
   });
-  it('redirects to the show page', async () => {});
+  it('redirects to the show page', async () => {
+    const itemToUpdate = await seedItemToDatabase();
+
+    const response1 = await request(app)
+      .get(`/videos/${itemToUpdate._id}/edit`);
+
+    const response2 = await request(app)
+      .post(`/videos/${itemToUpdate._id}/updates`)
+      .type('form')
+      .send(updatedVideoInformation);
+
+    assert.equal(response2.status, 302);
+    assert.include(response2.text, 'Video Show Page');
+  });
+
   describe('when the record is invalid',() => {
-    it('does not save the record', async () => {});
+    it('does not save the record', async () => {
+      const itemToUpdate = await seedItemToDatabase();
+
+      const response1 = await request(app)
+        .get(`/videos/${itemToUpdate._id}/edit`);
+
+      const invalidItem = {
+        title: '',
+        description: 'Lorem ipsum',
+        videoUrl: 'does not matter'
+      }
+
+      const response2 = await request(app)
+        .post(`/videos/${itemToUpdate._id}/updates`)
+        .type('form')
+        .send(invalidItem);
+        
+      // const invalidUpdate = await Video.findOne({_id: itemToUpdate._id});
+      assert.ok(response2.error);
+    });
+  });
     it('responds with a 400', async () => {});
     it('renders the Edit form', async () => {});
-  });
+  // });
 });

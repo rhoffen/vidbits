@@ -41,17 +41,35 @@ router.get('/videos/:id/edit', async (req, res, next) => {
 });
 
 router.post('/videos/:id/updates', async (req, res, next) => {
-  console.log('post request id: ' + req.params.id);
+  // console.log('post request id: ' + req.params.id);
+
   const {title, videoUrl, description} = req.body;
 
-  await console.log(`***req.title = ${title}`);
+  console.log(`req.body = ${JSON.stringify(req.body)}`);
 
-  const updatedVideo = await Video.update(
-    {_id: req.params.id},
-    {$set: {title, videoUrl, description}},
-    {returnNewDocument: true}
-  );
-  res.render('videos/show', {updatedVideo});
+  const updatedVideo = await Video.findOne({_id: req.params.id});
+
+    updatedVideo.title = title;
+      // console.log(`doc.title: ${doc.title}`);
+    updatedVideo.videoUrl = videoUrl;
+      // console.log(`doc.videoUrl: ${doc.videoUrl}`);
+    updatedVideo.description = description;
+      // console.log(`doc.description: ${doc.description}`);
+    updatedVideo.save();
+
+  updatedVideo.validateSync();
+
+  console.log('updated video = ' + JSON.stringify(updatedVideo));
+  if (updatedVideo.errors) {
+    if (updatedVideo.errors.title) {
+      updatedVideo.errors.title.message = 'could not find title input';
+    } else if (newVideo.errors.videoUrl) {
+      updatedVideo.errors.videoUrl.message = 'Video URL required';
+    }
+    res.status(400).render('videos/edit', { updatedVideo });
+  } else {
+    res.status(302).render('videos/show', {updatedVideo});
+  }
 });
 
 module.exports = router;

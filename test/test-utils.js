@@ -46,9 +46,23 @@ const seedItemToDatabase = async (options = {}) => {
   return video;
 };
 
+const newProps = {
+  title: 'Updated title',
+  description: 'Updated description',
+  videoUrl: 'updated URL'
+};
+
+const updatedVideoInformation = {
+  title: newProps.title,
+  videoUrl: newProps.videoUrl,
+  description: newProps.description
+};
+
 module.exports = {
   buildItemObject,
   seedItemToDatabase,
+  newProps,
+  updatedVideoInformation,
   parseTextFromHTML,
   findVideoElementBySource,
   connectDatabase,
