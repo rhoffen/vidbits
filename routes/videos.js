@@ -45,7 +45,7 @@ router.post('/videos/:id/updates', async (req, res, next) => {
 
   const {title, videoUrl, description} = req.body;
 
-  console.log(`req.body = ${JSON.stringify(req.body)}`);
+  // console.log(`req.body = ${JSON.stringify(req.body)}`);
 
   const updatedVideo = await Video.findOne({_id: req.params.id});
 
@@ -55,9 +55,9 @@ router.post('/videos/:id/updates', async (req, res, next) => {
       // console.log(`doc.videoUrl: ${doc.videoUrl}`);
     updatedVideo.description = description;
       // console.log(`doc.description: ${doc.description}`);
-    updatedVideo.save();
+  await updatedVideo.save();
 
-  updatedVideo.validateSync();
+  await updatedVideo.validateSync();
 
   console.log('updated video = ' + JSON.stringify(updatedVideo));
   if (updatedVideo.errors) {
