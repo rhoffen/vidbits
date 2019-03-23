@@ -82,7 +82,6 @@ describe('POST /videos/:id/updates', () => {
       .type('form')
       .send(updatedVideoInformation);
 
-
     const updatedItem = await Video.findById(itemToUpdate._id);
 
     assert.equal(updatedItem.title, newProps.title);
@@ -93,9 +92,9 @@ describe('POST /videos/:id/updates', () => {
   it('redirects to the show page', async () => {
     const itemToUpdate = await seedItemToDatabase();
 
-    const response1 = await request(app)
-      .get(`/videos/${itemToUpdate._id}/edit`);
-
+    // const response1 = await request(app)
+    //   .get(`/videos/${itemToUpdate._id}/edit`);
+    //
     const response2 = await request(app)
       .post(`/videos/${itemToUpdate._id}/updates`)
       .type('form')
@@ -109,8 +108,46 @@ describe('POST /videos/:id/updates', () => {
     it('does not save the record', async () => {
       const itemToUpdate = await seedItemToDatabase();
 
-      const response1 = await request(app)
-        .get(`/videos/${itemToUpdate._id}/edit`);
+      // const response1 = await request(app)
+      //   .get(`/videos/${itemToUpdate._id}/edit`);
+      //
+      const invalidItem = {
+        title: '',
+        description: 'Lorem ipsum',
+        videoUrl: 'does not matter'
+      }
+
+      const response = await request(app)
+        .post(`/videos/${itemToUpdate._id}/updates`)
+        .type('form')
+        .send(invalidItem);
+
+      // const invalidUpdate = await Video.findOne({_id: itemToUpdate._id});
+      assert.ok(response.error);
+    });
+  });
+    it('responds with a 400', async () => {
+      const itemToUpdate = await seedItemToDatabase();
+
+      // const response1 = await request(app)
+      //   .get(`/videos/${itemToUpdate._id}/edit`);
+      //
+      const invalidItem = {
+        title: '',
+        description: 'Lorem ipsum',
+        videoUrl: 'does not matter'
+      }
+
+      const response = await request(app)
+        .post(`/videos/${itemToUpdate._id}/updates`)
+        .type('form')
+        .send(invalidItem);
+
+      assert.equal(response.status, 400);
+    });
+
+    it('renders the Edit form', async () => {
+      const itemToUpdate = await seedItemToDatabase();
 
       const invalidItem = {
         title: '',
@@ -118,16 +155,41 @@ describe('POST /videos/:id/updates', () => {
         videoUrl: 'does not matter'
       }
 
-      const response2 = await request(app)
+      const response = await request(app)
         .post(`/videos/${itemToUpdate._id}/updates`)
         .type('form')
         .send(invalidItem);
-        
-      // const invalidUpdate = await Video.findOne({_id: itemToUpdate._id});
-      assert.ok(response2.error);
+
+      assert.include(response.text, 'Submit changes');
     });
+});
+
+describe('POST /videos/:id/deletions',() => {
+  beforeEach(connectDatabase);
+  afterEach(disconnectDatabase);
+
+  it('removes the record', async () => {
+    const videoToDelete = await seedItemToDatabase();
+    const allVideos1 = await Video.find();
+    assert.equal(allVideos1.length, 1);
+
+    const response = await request(app)
+      .post(`/videos/${videoToDelete._id}/deletions`)
+      .type('form')
+      .send();
+
+    const allVideos2 = await Video.find();
+    assert.equal(allVideos2.length, 0);
   });
-    it('responds with a 400', async () => {});
-    it('renders the Edit form', async () => {});
-  // });
+
+  it('redirects to the landing page', async () => {
+    const videoToDelete = await seedItemToDatabase();
+
+    const response = await request(app)
+      .post(`/videos/${videoToDelete._id}/deletions`)
+      .type('form')
+      .send();
+
+    assert.include(response.text, 'Redirecting to /');
+  });
 });

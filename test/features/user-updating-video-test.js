@@ -1,9 +1,9 @@
 const {assert} = require('chai');
-const request = require('supertest');
-const {jsdom} = require('jsdom');
-const app = require('../../app');
-const Video = require('../../models/video');
-const {parseTextFromHTML, buildItemObject, seedItemToDatabase, connectDatabase, disconnectDatabase, findVideoElementBySource} = require('../test-utils');
+// const request = require('supertest');
+// const {jsdom} = require('jsdom');
+// const app = require('../../app');
+// const Video = require('../../models/video');
+// const {parseTextFromHTML, buildItemObject, seedItemToDatabase, connectDatabase, disconnectDatabase, findVideoElementBySource} = require('../test-utils');
 
 describe('User updating video',() => {
   const createdVideo = buildItemObject();

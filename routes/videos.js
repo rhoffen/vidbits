@@ -59,7 +59,7 @@ router.post('/videos/:id/updates', async (req, res, next) => {
 
   await updatedVideo.validateSync();
 
-  console.log('updated video = ' + JSON.stringify(updatedVideo));
+  // console.log('updated video = ' + JSON.stringify(updatedVideo));
   if (updatedVideo.errors) {
     if (updatedVideo.errors.title) {
       updatedVideo.errors.title.message = 'could not find title input';
@@ -70,6 +70,12 @@ router.post('/videos/:id/updates', async (req, res, next) => {
   } else {
     res.status(302).render('videos/show', {updatedVideo});
   }
+});
+
+router.post('/videos/:id/deletions', async (req, res, next) => {
+  console.log(':id = ' + req.params.id);
+   await Video.deleteOne({ _id: req.params.id});
+   res.redirect('/');
 });
 
 module.exports = router;
