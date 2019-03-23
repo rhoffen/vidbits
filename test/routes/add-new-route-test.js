@@ -138,7 +138,20 @@ describe('POST /videos',() => {
         assert.equal(errorMessage, 'Video URL required');
       });
 
-      it('preserves the other field values',() => {});
+      it('preserves the other field values', async () => {
+        const seedItem = {title: 'test title', description:'test description', videoUrl: ''};
+
+        const response = await request(app)
+          .post('/videos')
+          .type('form')
+          .send(seedItem);
+
+        const descriptionTest = parseTextFromHTML(response.text, '#description-input');
+        const titleTest = jsdom(response.text).querySelector(`#title-input[value="${seedItem.title}"]`);
+
+        assert.equal(descriptionTest, seedItem.description);
+        assert.ok(titleTest);
+      });
     });
 
 });

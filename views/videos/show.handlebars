@@ -13,7 +13,7 @@
       <div class='video-description'>
         <p>{{newVideo.description}}</p>
       </div>
-      <form action='/videos/{{newVideo._id}}/edit' method="post">
+      <form action='/videos/{{newVideo._id}}/edit' method="get">
         <button id='edit' type='submit'>Edit video properties</button>
       </form>
       <form action='/videos/{{newVideo._id}}/deletions' method="post">
