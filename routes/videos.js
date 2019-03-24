@@ -52,21 +52,23 @@ router.post('/videos/:id/updates', async (req, res, next) => {
     updatedVideo.videoUrl = videoUrl;
     updatedVideo.description = description;
 
-  await updatedVideo.save();
+  await updatedVideo.save().then(errors => {
+    if (updatedVideo.errors) {
+      if (updatedVideo.errors.title) {
+        updatedVideo.errors.title.message = 'could not find title input';
+      } else if (newVideo.errors.videoUrl) {
+        updatedVideo.errors.videoUrl.message = 'Video URL required';
+      }
+      res.status(400).render('videos/edit', { updatedVideo });
+    } else {
+      res.status(302).render('videos/show', {updatedVideo});
+    }
+  });
 
-  await updatedVideo.validateSync();
+  // await updatedVideo.validateSync();
 
   // console.log('updated video = ' + JSON.stringify(updatedVideo));
-  if (updatedVideo.errors) {
-    if (updatedVideo.errors.title) {
-      updatedVideo.errors.title.message = 'could not find title input';
-    } else if (newVideo.errors.videoUrl) {
-      updatedVideo.errors.videoUrl.message = 'Video URL required';
-    }
-    res.status(400).render('videos/edit', { updatedVideo });
-  } else {
-    res.status(302).render('videos/show', {updatedVideo});
-  }
+
 });
 
 router.post('/videos/:id/deletions', async (req, res, next) => {
