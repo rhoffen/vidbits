@@ -48,13 +48,10 @@ router.post('/videos/:id/updates', async (req, res, next) => {
   // console.log(`req.body = ${JSON.stringify(req.body)}`);
 
   const updatedVideo = await Video.findOne({_id: req.params.id});
-
     updatedVideo.title = title;
-      // console.log(`doc.title: ${doc.title}`);
     updatedVideo.videoUrl = videoUrl;
-      // console.log(`doc.videoUrl: ${doc.videoUrl}`);
     updatedVideo.description = description;
-      // console.log(`doc.description: ${doc.description}`);
+
   await updatedVideo.save();
 
   await updatedVideo.validateSync();

@@ -125,7 +125,6 @@ describe('POST /videos/:id/updates', () => {
       // const invalidUpdate = await Video.findOne({_id: itemToUpdate._id});
       assert.ok(response.error);
     });
-  });
     it('responds with a 400', async () => {
       const itemToUpdate = await seedItemToDatabase();
 
@@ -145,7 +144,6 @@ describe('POST /videos/:id/updates', () => {
 
       assert.equal(response.status, 400);
     });
-
     it('renders the Edit form', async () => {
       const itemToUpdate = await seedItemToDatabase();
 
@@ -162,6 +160,7 @@ describe('POST /videos/:id/updates', () => {
 
       assert.include(response.text, 'Submit changes');
     });
+  });
 });
 
 describe('POST /videos/:id/deletions',() => {
