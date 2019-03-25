@@ -92,25 +92,19 @@ describe('POST /videos/:id/updates', () => {
   it('redirects to the show page', async () => {
     const itemToUpdate = await seedItemToDatabase();
 
-    // const response1 = await request(app)
-    //   .get(`/videos/${itemToUpdate._id}/edit`);
-    //
     const response2 = await request(app)
       .post(`/videos/${itemToUpdate._id}/updates`)
       .type('form')
       .send(updatedVideoInformation);
 
     assert.equal(response2.status, 302);
-    assert.include(response2.text, 'Video Show Page');
+    assert.include(response2.text, 'Found. Redirecting');
   });
 
   describe('when the record is invalid',() => {
     it('does not save the record', async () => {
       const itemToUpdate = await seedItemToDatabase();
 
-      // const response1 = await request(app)
-      //   .get(`/videos/${itemToUpdate._id}/edit`);
-      //
       const invalidItem = {
         title: '',
         description: 'Lorem ipsum',
