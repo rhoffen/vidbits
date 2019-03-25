@@ -45,30 +45,21 @@ router.post('/videos/:id/updates', async (req, res, next) => {
 
   const {title, videoUrl, description} = req.body;
 
-  // console.log(`req.body = ${JSON.stringify(req.body)}`);
-
   const updatedVideo = await Video.findOne({_id: req.params.id});
     updatedVideo.title = title;
     updatedVideo.videoUrl = videoUrl;
     updatedVideo.description = description;
 
-  await updatedVideo.save().then(errors => {
+  updatedVideo.validateSync();
+
     if (updatedVideo.errors) {
-      if (updatedVideo.errors.title) {
-        updatedVideo.errors.title.message = 'could not find title input';
-      } else if (newVideo.errors.videoUrl) {
-        updatedVideo.errors.videoUrl.message = 'Video URL required';
-      }
+      console.log(`errors: ${JSON.stringify(updatedVideo.errors)}`)
       res.status(400).render('videos/edit', { updatedVideo });
     } else {
+      console.log('debug 2')
+      updatedVideo.save();
       res.status(302).render('videos/show', {updatedVideo});
     }
-  });
-
-  // await updatedVideo.validateSync();
-
-  // console.log('updated video = ' + JSON.stringify(updatedVideo));
-
 });
 
 router.post('/videos/:id/deletions', async (req, res, next) => {

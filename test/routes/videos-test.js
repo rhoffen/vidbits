@@ -122,15 +122,11 @@ describe('POST /videos/:id/updates', () => {
         .type('form')
         .send(invalidItem);
 
-      // const invalidUpdate = await Video.findOne({_id: itemToUpdate._id});
       assert.ok(response.error);
     });
     it('responds with a 400', async () => {
       const itemToUpdate = await seedItemToDatabase();
 
-      // const response1 = await request(app)
-      //   .get(`/videos/${itemToUpdate._id}/edit`);
-      //
       const invalidItem = {
         title: '',
         description: 'Lorem ipsum',
