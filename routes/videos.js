@@ -59,8 +59,8 @@ router.post('/videos/:id/updates', async (req, res, next) => {
     } else {
       // console.log('debug 2')
       updatedVideo.save();
-      res.status(302).redirect(`/videos/show`);
-      // res.status(302).redirect(`/videos/${updatedVideo._id}`);
+      // res.status(302).redirect(`/videos/show`);
+      res.status(302).redirect(`/videos/${updatedVideo._id}`);
     }
 });
 
