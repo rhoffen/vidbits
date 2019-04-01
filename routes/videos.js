@@ -4,21 +4,21 @@ const Video = require('../models/video');
 router.post('/videos', async (req, res, next) => {
   const {title, description, videoUrl} = req.body;
 
-  const newVideo = await new Video({title, description, videoUrl});
+  const videoToCreate = await new Video({title, description, videoUrl});
 
-  newVideo.validateSync();
+  videoToCreate.validateSync();
 
-  if (newVideo.errors) {
-    if (newVideo.errors.title) {
-      newVideo.errors.title.message = 'could not find title input';
-    } else if (newVideo.errors.videoUrl) {
-      newVideo.errors.videoUrl.message = 'Video URL required';
+  if (videoToCreate.errors) {
+    if (videoToCreate.errors.title) {
+      videoToCreate.errors.title.message = 'could not find title input';
+    } else if (videoToCreate.errors.videoUrl) {
+      videoToCreate.errors.videoUrl.message = 'Video URL required';
     }
-    res.status(400).render('create', { newVideo });
+    res.status(400).render('create', { videoToCreate });
   } else {
     // const video = await newVideo.save();
     await newVideo.save();
-    
+
     res.status(302).render('videos/show', {newVideo});
   }
 });
