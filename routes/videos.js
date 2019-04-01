@@ -4,20 +4,22 @@ const Video = require('../models/video');
 router.post('/videos', async (req, res, next) => {
   const {title, description, videoUrl} = req.body;
 
-  const newVideo = await new Video({title, description, videoUrl});
+  const videoToCreate = await new Video({title, description, videoUrl});
 
-  newVideo.validateSync();
+  videoToCreate.validateSync();
 
-  if (newVideo.errors) {
-    if (newVideo.errors.title) {
-      newVideo.errors.title.message = 'could not find title input';
-    } else if (newVideo.errors.videoUrl) {
-      newVideo.errors.videoUrl.message = 'Video URL required';
+  if (videoToCreate.errors) {
+    if (videoToCreate.errors.title) {
+      videoToCreate.errors.title.message = 'could not find title input';
+    } else if (videoToCreate.errors.videoUrl) {
+      videoToCreate.errors.videoUrl.message = 'Video URL required';
     }
-    res.status(400).render('create', { newVideo });
+    res.status(400).render('create', { videoToCreate });
   } else {
-    const video = await newVideo.save();
-    res.status(302).render('videos/show', {video});
+    // const video = await newVideo.save();
+    await videoToCreate.save();
+    const newVideo = await Video.findById(videoToCreate._id);
+    res.status(302).render('videos/show', {newVideo});
   }
 });
 
@@ -45,22 +47,24 @@ router.post('/videos/:id/updates', async (req, res, next) => {
 
   const {title, videoUrl, description} = req.body;
 
-  const updatedVideo = await Video.findOne({_id: req.params.id});
-    updatedVideo.title = title;
-    updatedVideo.videoUrl = videoUrl;
-    updatedVideo.description = description;
+  const videoToEdit = await Video.findOne({_id: req.params.id});
+    videoToEdit.title = title;
+    videoToEdit.videoUrl = videoUrl;
+    videoToEdit.description = description;
 
-  updatedVideo.validateSync();
+  await videoToEdit.validateSync();
 
-    if (updatedVideo.errors) {
+    if (videoToEdit.errors) {
       // console.log(`errors: ${JSON.stringify(updatedVideo.errors)}`);
-      const videoToEdit = updatedVideo;
+      // const videoToEdit = updatedVideo;
       res.status(400).render('videos/edit', { videoToEdit });
     } else {
       // console.log('debug 2')
-      await updatedVideo.save();
-      // res.status(302).redirect(`/videos/show`);
-      res.status(302).redirect(`/videos/${updatedVideo._id}`);
+
+      await videoToEdit.save();
+      const newVideo = await Video.findById(videoToEdit._id)
+
+      res.status(302).render('videos/show', {newVideo});
     }
 });
 
