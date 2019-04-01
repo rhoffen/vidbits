@@ -17,8 +17,8 @@ router.post('/videos', async (req, res, next) => {
     res.status(400).render('create', { videoToCreate });
   } else {
     // const video = await newVideo.save();
-    await newVideo.save();
-
+    await videoToCreate.save();
+    const newVideo = await Video.findById(videoToCreate._id);
     res.status(302).render('videos/show', {newVideo});
   }
 });
@@ -47,22 +47,24 @@ router.post('/videos/:id/updates', async (req, res, next) => {
 
   const {title, videoUrl, description} = req.body;
 
-  const updatedVideo = await Video.findOne({_id: req.params.id});
-    updatedVideo.title = title;
-    updatedVideo.videoUrl = videoUrl;
-    updatedVideo.description = description;
+  const videoToEdit = await Video.findOne({_id: req.params.id});
+    videoToEdit.title = title;
+    videoToEdit.videoUrl = videoUrl;
+    videoToEdit.description = description;
 
-  updatedVideo.validateSync();
+  await videoToEdit.validateSync();
 
-    if (updatedVideo.errors) {
+    if (videoToEdit.errors) {
       // console.log(`errors: ${JSON.stringify(updatedVideo.errors)}`);
-      const videoToEdit = updatedVideo;
+      // const videoToEdit = updatedVideo;
       res.status(400).render('videos/edit', { videoToEdit });
     } else {
       // console.log('debug 2')
-      updatedVideo.save();
+      await videoToEdit.save();
+      const newVideo = await Video.findById(videoToEdit._id)
       // res.status(302).redirect(`/videos/show`);
-      res.status(302).redirect(`/videos/${updatedVideo._id}`);
+      // res.status(302).redirect(`/videos/${updatedVideo._id}`);
+      res.status(302).render('videos/show', {newVideo});
     }
 });
 
