@@ -19,10 +19,10 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', videosRoute);
-
-app.get('/', (req, res, next) => {
-  res.redirect('/videos');
-});
+//Lines 23-25 not in solution code
+// app.get('/', (req, res, next) => {
+//   res.redirect('/videos');
+// });
 
 
 

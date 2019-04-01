@@ -1,12 +1,15 @@
-<form action=`/videos/{{videoToEdit._id}}/updates` method='post'>
-  <input id="title-input" name="title" type="text" value="{{videoToEdit.title}}">
-  {{#with videoToEdit.errors.title as |error|}}
-    <span class="error">{{error.message}}</span>
-  {{/with}}
-  <textarea id="description-input" name="description" value="{{videoToEdit.description}}">{{videoToEdit.description}}</textarea>
-  <input id="videoUrl-input" name="videoUrl" value="{{videoToEdit.videoUrl}}">
-  {{#with videoToEdit.errors.videoUrl as |error|}}
-    <span class="url-error">{{error.message}}</span>
-  {{/with}}
-  <button type='submit'>Submit changes</button>
-</form>
+<div class="contents-container" id="create-video-container">
+  <h2>Edit video</h2>
+  <form action=`/videos/{{video._id}}/edit` method='post'>
+    <input id="title-input" name="title" type="text" value="{{video.title}}">
+    {{#with updatedVideo.errors.title as |error|}}
+      <span class="error">{{error.message}}</span>
+      {{/with}}
+      <textarea id="description-input" name="description" value="{{video.description}}">{{video.description}}</textarea>
+      <input id="videoUrl-input" name="videoUrl" value="{{video.videoUrl}}">
+      {{#with updatedVideo.errors.videoUrl as |error|}}
+      <span class="url-error">{{error.message}}</span>
+      {{/with}}
+      <button type='submit'>Submit changes</button>
+    </form>
+</div>

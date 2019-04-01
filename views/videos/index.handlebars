@@ -7,13 +7,16 @@
             <iframe class="video-player" src="{{video.videoUrl}}" frameborder="0" allowfullscreen></iframe>
         </div>
         <div class="video-title">
-          {{video.title}}
-          {{video.description}}
+          <!-- {{video.title}} -->
+          <a href="/videos/{{ video._id }}">{{ video.title }}</a>
+          <!-- {{video.description}} -->
         </div>
       </div>
-      <form action='/videos/{{video._id}}' method='get'>
+
+      <!-- <form action='/videos/{{video._id}}' method='get'>
         <button id="go-to-video-{{video._id}}" type='submit'>Go to video page</button>
-      </form>
+      </form> -->
       {{/each}}
 
     </div>
+<a class="add-video-button" href="/videos/create">Add new video</a>

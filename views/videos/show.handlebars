@@ -3,21 +3,22 @@
     <div class="video-card">
 
       <div class="video-title">
-        <p>{{newVideo.title}}</p>
+        <p>{{video.title}}</p>
       </div>
 
       <div class="video-player">
-          <iframe class="video-player" src="{{newVideo.videoUrl}}" frameborder="0" allowfullscreen></iframe>
+          <iframe class="video-player" src="{{video.videoUrl}}" frameborder="0" allowfullscreen></iframe>
       </div>
 
       <div class='video-description'>
-        <p>{{newVideo.description}}</p>
+        <p>{{video.description}}</p>
       </div>
-      <form action='/videos/{{newVideo._id}}/edit' method="get">
+      <!-- <form action='/videos/{{video._id}}/edit' method="get">
         <button id='edit' type='submit'>Edit video properties</button>
-      </form>
-      <form action='/videos/{{newVideo._id}}/deletions' method="post">
+      </form> -->
+      <form action='/videos/{{video._id}}/deletions' method="post">
         <button type="submit" value="Delete">Delete Video</button>
+        <a href="/videos/{{ video._id }}/edit" class="edit-video-button" id="edit">Edit</a>
       </form>
     </div>
   </div>
