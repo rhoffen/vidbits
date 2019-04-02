@@ -13,13 +13,21 @@ describe('GET /videos', () => {
     afterEach(disconnectDatabase);
 
     it('renders existing Videos', async () => {
-      const video = await seedItemToDatabase();
+      const firstItem = await seedItemToDatabase({title: 'Item1', videoUrl: 'http://youtube/3.14'});
+      const secondItem = await seedItemToDatabase({title: 'Item2', videoUrl: 'http://vimeo/2.71'});
 
       const response = await request(app).get('/videos');
 
-      assert.include(parseTextFromHTML(response.text, "#videos-container .video-title"), video.title);
-
-
+      console.log(JSON.stringify(response));
+// <a href="/videos/{{ video._id }}">{{ video.title }}</a>
+      assert.include(parseTextFromHTML(response.text, "#videos-container .video-title"), firstItem.title);
+      // assert.include(parseTextFromHTML(response.text, `#video-${firstItem._id} .video-title`), firstItem.title);
+      // assert.include(parseTextFromHTML(response.text, `a[href="/videos/${firstItem._id}"]`), firstItem.title);
+      assert.ok(findVideoElementBySource(response.text, firstItem.videoUrl));
+      // assert.include(parseTextFromHTML(response.text, `#video-${secondItem._id} .video-title`), secondItem.title);
+      assert.include(parseTextFromHTML(response.text, `a[href="/videos/${ secondItem._id }"]`), secondItem.title);
+      assert.ok(findVideoElementBySource(response.text, firstItem.videoUrl));
+      assert.ok(findVideoElementBySource(response.text, secondItem.videoUrl));
 
     });
 

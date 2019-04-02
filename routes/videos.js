@@ -8,7 +8,9 @@ router.get('/', async (req, res, next) => {
 });
 
 router.get('/videos', async (req, res, next) => {
+  console.log('debug 1');
   const videos = await Video.find({});
+  console.log('videos.length = ' + videos.length);
   res.render('videos/index', { videos });
 });
 
@@ -98,12 +100,12 @@ router.post('/videos', async (req, res, next) => {
 router.post('/videos/:id/edit', async (req, res, next) => {
     const videoId = req.params.id;
     const video = await Video.findById({ _id: videoId });
-    const { title, description, url } = req.body;
+    const { title, description, videoUrl } = req.body;
 
     const updatedVideo = new Video({
         title,
         description,
-        url
+        videoUrl
     });
 
     updatedVideo.validateSync();
@@ -112,8 +114,8 @@ router.post('/videos/:id/edit', async (req, res, next) => {
         if (updatedVideo.errors.title) {
             video.title = ""
         }
-        if (updatedVideo.errors.url) {
-            video.url = ""
+        if (updatedVideo.errors.videoUrl) {
+            video.videoUrl = ""
         }
         res.status(400).render("videos/edit", { updatedVideo, video });
     } else {

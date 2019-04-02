@@ -1,6 +1,6 @@
 <div class="contents-container" id="create-video-container">
   <h2>Edit video</h2>
-  <form action=`/videos/{{video._id}}/edit` method='post'>
+  <form action='/videos/{{video._id}}/edit' method='post'>
     <input id="title-input" name="title" type="text" value="{{video.title}}">
     {{#with updatedVideo.errors.title as |error|}}
       <span class="error">{{error.message}}</span>
