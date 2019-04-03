@@ -13,12 +13,10 @@
       <div class='video-description'>
         <p>{{video.description}}</p>
       </div>
-      <!-- <form action='/videos/{{video._id}}/edit' method="get">
-        <button id='edit' type='submit'>Edit video properties</button>
-      </form> -->
+
       <form action='/videos/{{video._id}}/deletions' method="post">
-        <button type="submit" value="Delete">Delete Video</button>
-        <a href="/videos/{{ video._id }}/edit" class="edit-video-button" id="edit">Edit</a>
+        <a href="/videos/{{ video._id }}/edit" class="input-button" id="edit">Edit Video</a>
+        <button class="input-button" type="submit" value="delete">Delete Video</button>
       </form>
     </div>
   </div>

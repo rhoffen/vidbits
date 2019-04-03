@@ -16,7 +16,8 @@ describe('GET /videos', () => {
       const video = await seedItemToDatabase();
 
       const response = await request(app).get('/videos');
-
+      console.log('response.header.location: ' + response.header.location);
+      console.log('response.text: ' + response.text);
       assert.include(parseTextFromHTML(response.text, "#videos-container .video-title"), video.title);
 
 

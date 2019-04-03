@@ -5,7 +5,7 @@
         <span class="error">{{error.message}}</span>
       {{/with}}
       <textarea id="description-input" name="description">{{newVideo.description}}</textarea>
-      <input id="videoUrl-input" name="videoUrl" value="{{newVideo.videoUrl}}">
+      <input id="videoUrl-input" name="url" value="{{newVideo.videoUrl}}">
       {{#with newVideo.errors.videoUrl as |error|}}
         <span class="url-error">{{error.message}}</span>
       {{/with}}

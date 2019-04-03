@@ -6,7 +6,7 @@ body {
 }
 
 .add-video-button {
-  text-align: center; 
+  text-align: center;
   background-color: #ff9b34;
   border: none;
   color: white;
@@ -98,7 +98,7 @@ form textarea {
 /* Show page */
 
 .input-button {
-  text-align: center; 
+  text-align: center;
   background-color: #ff9b34;
   border: none;
   color: white;
@@ -107,16 +107,11 @@ form textarea {
   margin: 0 auto;
   font-size: 16px;
   width: 166px;
-  display: block;
+  display: inline-block;
+  box-sizing: border-box;
+  font-weight: normal;
 }
 
 .video-description {
   padding: 30px 10px;
 }
-
-
-
-
-
-
-
