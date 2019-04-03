@@ -106,7 +106,7 @@ describe('POST /videos',() => {
           .send(seedItem);
 
         const errorMessage = parseTextFromHTML(response.text,'span[class="error"]');
-        assert.equal(errorMessage, 'could not find title input');
+        assert.equal(errorMessage, 'Title is required.');
       });
 
       it('preserves the other field values', async () => {
@@ -135,7 +135,7 @@ describe('POST /videos',() => {
           .send(missingUrlItem);
 
         const errorMessage = parseTextFromHTML(response.text,'span[class="url-error"]');
-        assert.equal(errorMessage, 'Video URL required');
+        assert.equal(errorMessage, 'Video URL is required');
       });
 
       it('preserves the other field values', async () => {
