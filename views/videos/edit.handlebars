@@ -8,11 +8,12 @@
       {{/with}}
       <label for="description-input">Description</label>
       <textarea id="description-input" name="description" value="{{video.description}}">{{video.description}}</textarea>
-      <label for="videoUrl-input">URL (required)</label>
+      <label id="url-label" for="videoUrl-input">URL (required)<br> Tip for YouTube: replace 'watch?/v=' with 'embed/' in the URL</label>
       <input id="videoUrl-input" name="videoUrl" value="{{video.videoUrl}}">
       {{#with updatedVideo.errors.videoUrl as |error|}}
-      <span class="url-error">{{error.message}}</span>
+      <span class="error">{{error.message}}</span>
       {{/with}}
       <button type='submit' class="input-button">Submit changes</button>
+      <a href = '/videos' class="input-button" id="cancel">Cancel</a>
     </form>
 </div>

@@ -1,6 +1,4 @@
 const {assert} = require('chai');
-//const Video = require('../../models/video');
-// const {const {mongoose, databaseUrl, options} = require('../../database');
 const {connectDatabase, disconnectDatabase, seedItemToDatabase, findVideoElementBySource} = require('../test-utils')}
 
 const generateRandomUrl = (domain) => {
@@ -17,8 +15,8 @@ describe('User visits landing page', () => {
 
   it('can navigate to add a video', () => {
     browser.url('/');
-    browser.click('a[href="./videos/create"]');
-    assert.include(browser.getText('body'),'Save a video');
+    browser.click('a[href="/videos/create"]');
+    assert.include(browser.getText('body'),'Save video');
   });
 
   describe('with an existing video',() => {
@@ -39,15 +37,13 @@ describe('User visits landing page', () => {
       const seedVideo = await seedItemToDatabase(options.videoUrl = seedUrl);
       browser.url('/');
       //assert that videoUrl property on the landing page is dynamic
-      assert.equal($('iframe').getValue(), seedUrl);
-      browser.click(`button[id="go-to-video-${seedVideo._id}"]`);
+      const dynamicUrl = findVideoElementBySource(browser.getText('body'), seedUrl);
+      assert.doesNotThrow(dynamicUrl, Error);
       //assert that clicking the button for a specific video goes to the Video Show Page
+      browser.click(`a[href="/videos/${seedVideo._id}"]`);
       assert.include(browser.getText('body'),'Video Show Page');
       //assert that the seeded video title is displayed on the Video Show Page
       assert.include(browser.getText('body'), seedVideo.title);
     });
-
-
   });
-
 });

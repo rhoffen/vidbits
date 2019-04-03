@@ -9,7 +9,7 @@ describe('user visiting new video page', () => {
     };
 
     browser.url('/videos/create');
-    assert.include(browser.getText('body'),'Save a video');
+    assert.include(browser.getText('body'),'Save video');
     browser.setValue('input#title-input', seedItem.title);
     browser.setValue('input#videoUrl-input', seedItem.videoUrl);
     browser.setValue('input#description-input', seedItem.decription);

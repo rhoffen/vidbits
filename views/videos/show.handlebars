@@ -14,9 +14,10 @@
         <p>{{video.description}}</p>
       </div>
 
-      <form action='/videos/{{video._id}}/deletions' method="post">
+      <form action='/videos/{{video._id}}/deletions' method="post" id="buttons">
         <a href="/videos/{{ video._id }}/edit" class="input-button" id="edit">Edit Video</a>
-        <button class="input-button" type="submit" value="delete">Delete Video</button>
+        <button class="input-button" type="submit" id="delete" value="delete">Delete Video</button>
+        <a href="/videos" class="input-button">Home</a>
       </form>
     </div>
   </div>

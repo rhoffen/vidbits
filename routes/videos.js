@@ -61,13 +61,12 @@ router.post('/videos/:id/edit', async (req, res, next) => {
           video.description = description;
           video.videoUrl = videoUrl;
       }
-      if (updatedVideo.errors.url) {
+      if (updatedVideo.errors.videoUrl) {
           video.title = title;
           video.description = description;
-          video.url = ""
+          video.videoUrl = ""
           updatedVideo.errors.videoUrl.message = "URL is required";
       }
-
       res.status(400).render('videos/edit', { updatedVideo, video });
     } else {
       await video.save({_id: req.params.id});

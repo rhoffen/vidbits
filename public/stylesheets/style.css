@@ -104,7 +104,7 @@ form textarea {
   color: white;
   padding: 15px 32px;
   text-decoration: none;
-  margin: 0 auto;
+  margin: 0 1.25rem;
   font-size: 16px;
   width: 166px;
   display: inline-block;
@@ -112,8 +112,13 @@ form textarea {
   font-weight: normal;
 }
 
-#save-button {
-  display: block;
+#cancel {
+  height: 66px;
+}
+
+#buttons {
+  width: 90%;
+  padding-bottom: 20px;
 }
 
 .video-description {
@@ -125,7 +130,10 @@ label {
   margin: 20px auto 5px;
 }
 
-span{
+#url-label {
+  line-height: 1.8;
+}
+.error {
   display: block;
   color: red;
   margin: -30px auto 30px;

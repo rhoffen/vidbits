@@ -6,24 +6,15 @@ const Video = require('../../models/video');
 const {parseTextFromHTML, seedItemToDatabase, newProps, updatedVideoInformation, connectDatabase, disconnectDatabase, findVideoElementBySource} = require('../test-utils');
 
 describe('GET /videos', () => {
-
-
     beforeEach(connectDatabase);
 
     afterEach(disconnectDatabase);
 
     it('renders existing Videos', async () => {
       const video = await seedItemToDatabase();
-
       const response = await request(app).get('/videos');
-      console.log('response.header.location: ' + response.header.location);
-      console.log('response.text: ' + response.text);
       assert.include(parseTextFromHTML(response.text, "#videos-container .video-title"), video.title);
-
-
-
     });
-
 });
 
 describe('GET /videos/:id', () => {
@@ -40,7 +31,6 @@ describe('GET /videos/:id', () => {
     assert.include(parseTextFromHTML(response.text, `.video-title`), videoItem.title);
     assert.include(parseTextFromHTML(response.text, `.video-description`), videoItem.description);
     assert.ok(findVideoElementBySource(response.text, videoItem.videoUrl));
-    //assert.deepInclude(response.text, {videoItem});
   });
 });
 

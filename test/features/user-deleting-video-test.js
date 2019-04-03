@@ -7,7 +7,7 @@ describe('User deleting video',() => {
 
   it('removes the Video from the list', () => {
     const videoToDelete =  seedItemToDatabase();
-    browser.url(`/videos/${videoToDelete._id}/show`);
+    browser.url(`/videos/${videoToDelete._id}`);
     browser.click('#delete');
     assert.notInclude(browser.getText('body'), videoToDelete.title);
   });

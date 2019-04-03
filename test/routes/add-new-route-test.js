@@ -94,7 +94,7 @@ describe('POST /videos',() => {
           .send(seedItem);
 
         const createPageText = parseTextFromHTML(response.text,'button[type="submit"]');
-        assert.equal(createPageText, 'Save a video');
+        assert.equal(createPageText, 'Save video');
       });
 
       it('renders the validation error message', async () => {
@@ -134,7 +134,7 @@ describe('POST /videos',() => {
           .type('form')
           .send(missingUrlItem);
 
-        const errorMessage = parseTextFromHTML(response.text,'span[class="url-error"]');
+        const errorMessage = parseTextFromHTML(response.text,'span[class="error"]');
         assert.equal(errorMessage, 'Video URL is required');
       });
 
@@ -153,5 +153,4 @@ describe('POST /videos',() => {
         assert.ok(titleTest);
       });
     });
-
 });
