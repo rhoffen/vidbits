@@ -27,5 +27,8 @@
     "wdio-phantomjs-service": "^0.2.2",
     "wdio-spec-reporter": "^0.1.2",
     "webdriverio": "^4.14.3"
-  }
+  },
+  "engines": {
+    "node": "8.15.1"
+  },
 }

@@ -2,4 +2,4 @@
 
 set -e
 #Uncomment line 5 to resume feature tests.
-NODE_ENV=test ./node_modules/webdriverio/bin/wdio wdio.conf.js --colors
+#NODE_ENV=test ./node_modules/webdriverio/bin/wdio wdio.conf.js --colors
