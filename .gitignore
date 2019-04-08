@@ -3,7 +3,7 @@ npm-debug.log
 .DS_Store
 /*env
 #Comment out below for testing
-wdio.conf.js
-test/
-bin/mocha-test
-bin/wdio-test
+#wdio.conf.js
+#test/
+#bin/mocha-test
+#bin/wdio-test
